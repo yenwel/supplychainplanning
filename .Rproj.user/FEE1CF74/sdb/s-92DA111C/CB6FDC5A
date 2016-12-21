@@ -1,0 +1,18 @@
+{
+    "contents" : "Forecast.Example.Data <- read.csv(\"Forecast-Example-Data.csv\", sep=\"\")\nForecast.Example.Data$NaiveForecast <- c(NA,Forecast.Example.Data$Demand[1:nrow(Forecast.Example.Data)-1])\nForecast.Example.Data$CummulativeMean <- c(NA,(cumsum(Forecast.Example.Data$Demand) / seq_along(Forecast.Example.Data$Demand))[1:nrow(Forecast.Example.Data)-1])\n\nnaive <- function(x){c(NA,x[1:length(x)-1])}\nnaive(Forecast.Example.Data$Demand)\ncumean <- function(x){c(NA,(cumsum(x) / seq_along(x))[1:length(x)-1])}\ncumean(Forecast.Example.Data$Demand)\nmovmean <-  function(x,n=5){c(NA,as.vector(filter(x,rep(1/n,n), sides=1)))}\nSupply.Chain.Planning.Quiz.Data.naive <-apply(Supply.Chain.Planning.Quiz.Data,2,naive)\n\nSupply.Chain.Planning.Quiz.Data.cumean <- round(apply(Supply.Chain.Planning.Quiz.Data,2,cumean))\n\nForecast.Example.Data.MovingAverages <- read.csv(\"Forecast-Example-Data-MovingAverages.csv\", sep=\"\")\n\nma3 <- round(movmean(Forecast.Example.Data.MovingAverages,3))\nma5 <- round(movmean(Forecast.Example.Data.MovingAverages,5))\n\nForecast.Example.Data.accuracy <- read.csv(\"Forecast-Example-Data-accuracy.csv\", sep=\"\")\nE <- function(x,y){(x-y)} #bias\nSE <-function(x,y){(x-y)**2} #accuracy\nAPE <-function(x,y){abs((x-y)/x)} #accuracy\nSupply.Chain.Planning.Quiz.Data.accuracy <- read.csv(\"Supply-Chain-Planning-Quiz-Data-accuracy.csv\")\nSupply.Chain.Planning.Quiz.Data.MovingAverages <- read.csv(\"Supply-Chain-Planning-Quiz-Data-MovingAverages.csv\")\n\napply(SE(Supply.Chain.Planning.Quiz.Data ,  Supply.Chain.Planning.Quiz.Data.cumean),2,mean,na.rm=T)\n\napply(APE(Supply.Chain.Planning.Quiz.Data ,  Supply.Chain.Planning.Quiz.Data.cumean),2,mean,na.rm=T)\n",
+    "created" : 1482295041892.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3045021287",
+    "id" : "CB6FDC5A",
+    "lastKnownWriteTime" : 1482295164,
+    "path" : "~/supplychainforecasting/script.R",
+    "project_path" : "script.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "type" : "r_source"
+}
